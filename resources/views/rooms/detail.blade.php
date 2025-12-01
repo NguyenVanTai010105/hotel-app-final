@@ -12,9 +12,10 @@
         .thumb-img { height: 80px; width: 100%; object-fit: cover; border-radius: 4px; cursor: pointer; transition: 0.2s; border: 2px solid transparent; }
         .thumb-img:hover { border-color: #0d6efd; opacity: 0.8; }
         .room-price { color: #dc3545; font-weight: bold; font-size: 1.8rem; }
-        /* Style cho card phòng tương tự */
         .related-card img { height: 180px; object-fit: cover; }
         .related-card:hover { transform: translateY(-5px); transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        /* Style riêng cho box quy định */
+        .policy-box { background-color: #f8f9fa; border-left: 4px solid #0d6efd; border-radius: 4px; }
     </style>
 </head>
 <body class="bg-light">
@@ -60,9 +61,11 @@
                 <div class="card shadow-sm p-4 mb-4 border-0">
                     <h3 class="fw-bold mb-3">Mô tả phòng</h3>
                     <p class="text-secondary" style="line-height: 1.8;">{{ $room->description }}</p>
+                    
                     <hr class="my-4">
+                    
                     <h5 class="fw-bold mb-3">Tiện nghi có sẵn</h5>
-                    <div class="row g-3">
+                    <div class="row g-3 mb-4">
                         <div class="col-6 col-md-4"><i class="bi bi-wifi text-primary"></i> Wifi miễn phí</div>
                         <div class="col-6 col-md-4"><i class="bi bi-snow text-info"></i> Điều hòa 2 chiều</div>
                         <div class="col-6 col-md-4"><i class="bi bi-tv text-dark"></i> Smart TV 4K</div>
@@ -70,7 +73,45 @@
                         <div class="col-6 col-md-4"><i class="bi bi-safe text-secondary"></i> Két an toàn</div>
                         <div class="col-6 col-md-4"><i class="bi bi-droplet text-primary"></i> Bồn tắm nóng</div>
                     </div>
-                </div>
+
+                    <hr class="my-4">
+
+                    <h5 class="fw-bold mb-3">📋 Chính sách & Quy định chung</h5>
+                    <div class="policy-box p-3">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-clock-history fs-4 text-primary me-3"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Giờ nhận phòng</small>
+                                        <strong>Từ 14:00</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-box-arrow-right fs-4 text-primary me-3"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Giờ trả phòng</small>
+                                        <strong>Trước 12:00</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12"><hr class="text-muted"></div>
+                            
+                            <div class="col-md-6">
+                                <i class="bi bi-ban text-danger me-2"></i> Không hút thuốc trong phòng
+                            </div>
+                            <div class="col-md-6">
+                                <i class="bi bi-slash-circle text-danger me-2"></i> Không mang theo thú cưng
+                            </div>
+                            <div class="col-md-12">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i> 
+                                <span class="text-success fw-bold">Hủy phòng miễn phí</span> trước 24h nhận phòng
+                            </div>
+                        </div>
+                    </div>
+                    </div>
             </div>
 
             <div class="col-lg-4">
@@ -132,7 +173,8 @@
                 @endforeach
             </div>
         </div>
-        </div>
+
+    </div>
 
     <footer class="bg-dark text-white text-center py-4 mt-5">
         <p class="mb-0">© 2025 MyHotel Project</p>
