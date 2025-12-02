@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
     }
     public function login(Request $request)
     {
-        // Validate dữ liệu
+    
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:8',
@@ -46,10 +46,10 @@ class AuthenticatedSessionController extends Controller
             ])->onlyInput('email');
         }
 
-        // Kiểm tra email và mật khẩu
+
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate(); // Ngăn session fixation
-            return redirect()->intended(route('welcom')); // Chuyển đến trang index
+            $request->session()->regenerate();
+            return redirect()->intended(route('welcome'));
         }
 
         // Nếu sai thông tin
