@@ -48,7 +48,7 @@
             <!-- Desktop Button -->
             @guest
                 <div class="hidden md:flex items-center space-x-4">
-                    <a href="{{ route('login.index') }}"
+                    <a href="#"
                         class="flex items-center space-x-2 px-5 py-2 bg-[#0F3B37] text-white font-semibold rounded-full hover:bg-[#F5A623] transition">
                         <span>Đăng nhập</span>
                         <i class="fa-regular fa-user"></i>
