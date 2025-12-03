@@ -98,22 +98,23 @@
 
     <body>
 
-        <!-- Header Quay Lại -->
+       
         <div class="max-w-6xl mx-auto px-4 py-6">
-            <!-- Header -->
-            <div class="flex items-center justify-between bg-white shadow p-4 rounded-xl mb-6">
-                <a href="{{ route('welcome') }}" class="text-gray-600 font-semibold flex items-center">
-                    <i class="fa-solid fa-arrow-left mr-2"></i> Quay lại
+           
+            <div class="flex items-center border-none justify-between  p-4  mb-6">
+                <a href="{{ url()->previous() }}"
+                    class="text-gray-600 font-semibold flex items-center gap-2 px-6 py-3 rounded-full bg-gray-100 
+          hover:bg-blue-500 hover:text-white hover:animate-bounce transition-all duration-300 ease-in-out">
+                    <i class="fa-solid fa-arrow-left"></i>
                 </a>
-                <span class="font-bold uppercase text-gray-700 hidden md:block">Hoàn tất đặt phòng</span>
             </div>
 
-            <form action="" method="POST" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <form action="{{ route('booking.store') }}" method="POST" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 @csrf
                 <input type="hidden" name="room_id" value="{{ $room->id }}">
                 <input type="hidden" id="raw_price" value="{{ $room->price }}">
 
-                <!-- LEFT COLUMN -->
+             
                 <div class="lg:col-span-2 space-y-6">
 
                     <!-- Section 1 -->

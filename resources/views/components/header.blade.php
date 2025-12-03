@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite('resources/css/app.css')
 </head>
 <style>
 
 </style>
 
-<body class="bg-[#B4D2CC] m-0 p-0 box-border ">
+<body class=" m-0 p-0 box-border ">
     <header
         class="sticky top-0 my-4 bg-white shadow-md border-4 border-[#C9E0DA] p-2 rounded-3xl z-50 w-4/5 max-w-7xl mx-auto">
 
@@ -59,9 +59,10 @@
             @auth
                 <div class="hidden md:flex items-center space-x-4">
                     <a href="{{ route('logout') }}"
-                        class="flex items-center space-x-2 px-5 py-2 bg-[#0F3B37] text-white font-semibold rounded-full hover:bg-[#F5A623] transition">
+                        class="flex items-center space-x-2 px-5 py-2 bg-[#0F3B37] text-[#F5A623] hover:bg-[#F5A623] hover:text-[#0F3B37]  font-semibold rounded-full transition group">
                         <span>Đăng xuất</span>
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        <i
+                            class="fa-solid fa-arrow-right-from-bracket transition-transform duration-300 group-hover:translate-x-1"></i>
                     </a>
                 </div>
             @endauth
@@ -97,3 +98,4 @@
             menu.classList.toggle('hidden');
         });
     </script>
+</body>

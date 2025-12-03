@@ -2,6 +2,13 @@
 @section('title')
 
 @section('content')
+    @if (session('notAuthentication'))
+        <div class="mb-4 rounded-lg flex justify-between bg-red-100 px-4 py-3 text-red-800 border border-red-300">
+            <div>{{ session('notAuthentication') }}</div>
+            <div class="hover:text-[red]"><a href="{{ route('sendOTP') }}">Xác thực ngay tại đây</a></div>
+
+        </div>
+    @endif
 
     <body class="bg-gray-50">
 
@@ -156,10 +163,12 @@
 
                             @if ($room->status == 'available')
                                 <div class="space-y-3">
-                                    <button
-                                        class="w-full bg-[#0F3B37] text-[#F5A623] hover:text-[#0F3B37] hover:bg-[#F5A623]  font-bold py-3 rounded-lg shadow transition duration-200">
-                                        ĐẶT PHÒNG NGAY
-                                    </button>
+                                    <a href="{{ route('booking.create', ['id' => $room->id]) }}">
+                                        <button
+                                            class="w-full bg-[#0F3B37] text-[#F5A623] hover:text-[#0F3B37] hover:bg-[#F5A623] font-bold py-3 rounded-lg shadow transition duration-200">
+                                            ĐẶT PHÒNG NGAY
+                                        </button>
+                                    </a>
 
                                 </div>
                             @else
