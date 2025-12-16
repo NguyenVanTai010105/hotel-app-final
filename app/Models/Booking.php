@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
+    protected $fillable = ['user_id', 'email', 'room_id', 'start_date', 'end_date', 'status', 'des'];
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -14,5 +15,9 @@ class Booking extends Model
     public function room()
     {
         return $this->belongsTo(Room::class);
+    }
+    public function bookings()
+    {
+        return $this->belongsToMany(Booking::class);
     }
 }

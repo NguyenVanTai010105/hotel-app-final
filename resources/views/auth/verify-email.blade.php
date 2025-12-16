@@ -11,7 +11,24 @@
     @vite('resources/css/app.css')
 </head>
 <!-- Thông báo Success -->
-
+@if (session('status'))
+    <div id="toast"
+        class=" fixed top-[70px] right-5 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 opacity-0 transform transition-all duration-300">
+        {{ session('status') }}
+    </div>
+@elseif($errors->any())
+    <div id="toast"
+        class=" fixed top-[70px] right-5 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-100 opacity-0 transform transition-all duration-300">
+        @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
+@elseif(session('logout'))
+    <div id="toast"
+        class=" fixed bottom-0 right-5 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 opacity-0 transform transition-all duration-300">
+        {{ session('logout') }}
+    </div>
+@endif
 
 <body class="bg-[#B4D2CC] m-0 p-0 box-border">
     <header
@@ -99,30 +116,26 @@
                 </div>
 
                 <!-- Form -->
-                <form class="space-y-6" method="POST" action="{{ route('verify_post') }}">
-                    <!-- OTP Input -->
+                <form method="POST" action="{{ route('verify_post') }}"
+                    class="max-w-md mx-auto bg-white p-6 rounded-xl shadow-lg space-y-5">
                     @csrf
-                    <div class="space-y-2">
-                        <label class="block text-sm text-center font-medium text-gray-700">Mã OTP</label>
-                        <div class="flex gap-2 justify-center">
-                            <input type="text" name="otp[]" maxlength="1"
-                                class="w-12 h-12 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none transition" />
-                            <input type="text" name="otp[]" maxlength="1"
-                                class="w-12 h-12 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none transition" />
-                            <input type="text" name="otp[]" maxlength="1"
-                                class="w-12 h-12 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none transition" />
-                            <input type="text" name="otp[]" maxlength="1"
-                                class="w-12 h-12 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none transition" />
-                            <input type="text" name="otp[]" maxlength="1"
-                                class="w-12 h-12 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none transition" />
-                            <input type="text" name="otp[]" maxlength="1"
-                                class="w-12 h-12 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none transition" />
-                        </div>
+
+                    <!-- Label -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            OTP xác thực
+                        </label>
+                        <input type="text" name="otp" placeholder="Nhập otp của bạn"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500
+                   focus:border-indigo-500 transition">
                     </div>
 
                     <!-- Submit Button -->
                     <button type="submit"
-                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition duration-200">
+                        class="w-full bg-indigo-600 hover:bg-indigo-700
+               text-white font-semibold py-3 rounded-lg
+               transition duration-200 active:scale-[0.98]">
                         Xác thực
                     </button>
                 </form>
@@ -132,7 +145,7 @@
                     <div class="flex items-center justify-center gap-2 text-sm">
                         <p class="text-gray-600">Không nhận được mã?</p>
 
-                        <form method="POST" action="{{ route('verify_post') }}">
+                        <form method="POST" action="{{ route('resendOTP') }}">
                             @csrf
                             <button type="submit"
                                 class="text-indigo-600 hover:text-indigo-700 font-semibold transition">
@@ -141,16 +154,7 @@
                         </form>
                     </div>
 
-                    <p class="text-gray-500 text-xs mt-2">Gửi lại trong 60s</p>
-                </div>
-
-
-
-                <!-- Change Phone -->
-                <div class="text-center mt-4">
-                    <button type="button" class="text-gray-600 hover:text-gray-800 text-sm font-medium transition">
-                        Thay đổi số điện thoại
-                    </button>
+                    <p class="text-gray-500 text-xs mt-2">Yêu cầu không spam và gửi lại sau 30s</p>
                 </div>
             </div>
 
@@ -162,5 +166,19 @@
     </x>
 
 </body>
+<script>
+    const toast = document.getElementById('toast');
+    if (toast) {
+        setTimeout(() => {
+            toast.classList.remove('opacity-0');
+            toast.classList.add('opacity-100');
+        }, 100);
+        setTimeout(() => {
+            toast.clas
+            List.remove('opacity-100');
+            toast.classList.add('opacity-0');
+        }, 3100);
+    }
+</script>
 
 </html>

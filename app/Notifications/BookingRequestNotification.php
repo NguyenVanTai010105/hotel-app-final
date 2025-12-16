@@ -20,7 +20,7 @@ class BookingRequestNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['database', 'mail']; // kênh gửi
+        return ['database']; // kênh gửi
     }
 
     public function toDatabase($notifiable)
@@ -31,13 +31,5 @@ class BookingRequestNotification extends Notification
             'room_name' => $this->booking->room->name,
             'message' => "Người dùng {$this->booking->user->name} gửi yêu cầu đặt phòng {$this->booking->room->name}.",
         ];
-    }
-
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->subject('Yêu cầu đặt phòng mới')
-            ->line("Người dùng {$this->booking->user->name} gửi yêu cầu đặt phòng {$this->booking->room->name}.")
-            ->action('Xem chi tiết', url('/admin/bookings'));
     }
 }

@@ -94,13 +94,23 @@
 
 @section('content')
 
-
+    @if (session('status'))
+        <div id="toast"
+            class="fixed top-[70px] right-5 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 opacity-0 transform transition-all duration-300">
+            {{ session('status') }}
+        </div>
+    @elseif(session('error'))
+        <div id="toast"
+            class="fixed top-[70px] right-5 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 opacity-0 transform transition-all duration-300">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <body>
 
-       
+
         <div class="max-w-6xl mx-auto px-4 py-6">
-           
+
             <div class="flex items-center border-none justify-between  p-4  mb-6">
                 <a href="{{ url()->previous() }}"
                     class="text-gray-600 font-semibold flex items-center gap-2 px-6 py-3 rounded-full bg-gray-100 
@@ -109,12 +119,13 @@
                 </a>
             </div>
 
-            <form action="{{ route('booking.store') }}" method="POST" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <form action="{{ route('booking.store', $room->id) }}" method="POST"
+                class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 @csrf
                 <input type="hidden" name="room_id" value="{{ $room->id }}">
                 <input type="hidden" id="raw_price" value="{{ $room->price }}">
 
-             
+
                 <div class="lg:col-span-2 space-y-6">
 
                     <!-- Section 1 -->
@@ -123,20 +134,15 @@
                             <i class="fa-solid fa-user text-red-500 mr-2"></i> 1. Thông tin người đặt
                         </h2>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1  gap-4">
                             <div>
                                 <label class="font-semibold text-sm">Họ và tên *</label>
                                 <input type="text" name="fullname" required
                                     class="mt-1 w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 focus:outline-none"
                                     placeholder="Ví dụ: Nguyễn Văn A">
                             </div>
+
                             <div>
-                                <label class="font-semibold text-sm">Số điện thoại *</label>
-                                <input type="tel" name="phone" required
-                                    class="mt-1 w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 focus:outline-none"
-                                    placeholder="09xxxxxxxxx">
-                            </div>
-                            <div class="md:col-span-2">
                                 <label class="font-semibold text-sm">Email (Nhận vé điện tử)</label>
                                 <input type="email" name="email" required
                                     class="mt-1 w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 focus:outline-none"
@@ -154,20 +160,21 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="font-semibold text-sm">Ngày nhận phòng</label>
-                                <input type="date" id="checkin" name="checkin" required
+                                <input type="date" id="checkin" name="start_date" required
                                     class="mt-1 w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 focus:outline-none">
                             </div>
                             <div>
                                 <label class="font-semibold text-sm">Ngày trả phòng</label>
-                                <input type="date" id="checkout" name="checkout" required
+                                <input type="date" id="checkout" name="end_date" required
                                     class="mt-1 w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 focus:outline-none">
                             </div>
                             <div class="md:col-span-2">
                                 <label class="font-semibold text-sm">Ghi chú thêm</label>
-                                <textarea name="note" rows="3"
+                                <input type="text" name="des" rows="3"
                                     class="mt-1 w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-400 focus:outline-none"
-                                    placeholder="Yêu cầu đặc biệt..."></textarea>
+                                    placeholder="Yêu cầu đặc biệt..."></input>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -222,6 +229,18 @@
 
         <!-- JAVASCRIPT: LOGIC TÍNH TIỀN CHUẨN BOOKING ONLINE -->
         <script>
+            const toast = document.getElementById('toast');
+            if (toast) {
+                setTimeout(() => {
+                    toast.classList.remove('opacity-0');
+                    toast.classList.add('opacity-100');
+                }, 100);
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100');
+                    toast.classList.add('opacity-0');
+                }, 3100);
+            }
+
             document.addEventListener('DOMContentLoaded', function() {
                 const checkinEl = document.getElementById('checkin');
                 const checkoutEl = document.getElementById('checkout');

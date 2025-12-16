@@ -20,6 +20,10 @@ class EmailVerificationNotificationController extends Controller
     /**
      * Send a new email verification notification.
      */
+    public function view()
+    {
+        return view('auth.verify-email');
+    }
     public function sendOTP()
     {
         $user = Auth::user();
@@ -28,38 +32,24 @@ class EmailVerificationNotificationController extends Controller
             return back()->with('error', 'Vui lòng đăng nhập');
         }
         $record = EmailVerification::where('email', $user->email)->first();
-
-        if ($record && $record->expires_at === NULL) {
-            $otp = rand(100000, 999999);
-            EmailVerification::updateOrCreate(
-                ['email' => $user->email],
-                [
-                    'otp' => $otp,
-                    'expires_at' => now()->addMinutes(5)
-                ]
-            );
-            try {
-                Mail::to($user->email)->send(new SendEmail($otp));
-
-                return redirect()->route('viewVerify')->with('success', 'OTP đã được gửi lại đến email của bạn');
-            } catch (\Exception $e) {
-                // \Log::error('Resend OTP Error: ' . $e->getMessage());
-                return back()->with('error', 'Không thể gửi email: ' . $e->getMessage());
-            }
-        } else {
-            $otp = $record->otp;
-            EmailVerification::updateOrCreate(
-                ['email' => $user->email],
-                [
-                    'otp' => $otp,
-                    'expires_at' => now()->addMinutes(5)
-                ]
-            );
+        if ($record && $record->expires_at > now()) {
+            return redirect()->route('viewVerify')->with('success', 'OTP đã được gửi lại đến email của bạn');
         }
-    }
-    public function view()
-    {
-        return view('auth.verify-email');
+
+        $otp = rand(100000, 999999);
+        EmailVerification::updateOrCreate(
+            [
+                'email' => $user->email,
+                'otp' => $otp,
+                'expires_at' => now()->addMinutes(5)
+            ]
+        );
+        try {
+            Mail::to($user->email)->send(new SendEmail($otp));
+            return redirect()->route('viewVerify')->with('success', 'OTP đã được gửi lại đến email của bạn');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Không thể gửi email: ' . $e->getMessage());
+        }
     }
     public function verify(Request $request)
     {
@@ -67,24 +57,24 @@ class EmailVerificationNotificationController extends Controller
         $data = $request->validate([
             'otp' => 'required'
         ]);
-        $otpArray = $request->otp;
-        $otp = implode('', $otpArray);
+
         $record = EmailVerification::where('email', $user->email)
-            ->where('otp', $otp)
+            ->where('otp', $data['otp'])
             ->latest()
             ->first();
         if (!$record) {
-            return response()->json(['message' => 'OTP này không tồn tại'], 400);
+            return back()->with('error', 'OTP này không tồn tại');
         }
-        if ($record->expires_at < now()) {
+        if ($record->expires_at < now() && $record->otp === $data['otp']) {
             $record->delete();
-            return response()->json(['message' => 'OTP đã hết hạn'], 400);
+            return back()->with('error', 'OTP đã hết hạn');
         }
         if ($record->otp != $data['otp']) {
-            return response()->json(['message' => 'OTP không chính xác'], 400);
+            return back()->with('error', 'OTP không chính xác');
         }
-        User::where('email', $data['email'])->update(['email_verified_at' => now()]);
-        return  back()->with('message', 'Tạo tài khoản thành công!');
+
+        User::where('email', Auth::user()->email)->update(['email_verified_at' => now()]);
+        return  redirect()->route('welcome')->with('status', 'Xác thực tài khoản thành công!');
     }
     public function resend(Request $request)
     {
@@ -98,23 +88,23 @@ class EmailVerificationNotificationController extends Controller
 
         if ($record && $record->expires_at > now()) {
             return back()->with('error', 'OTP vẫn còn hiệu lực, vui lòng kiểm tra email!');
-        }
+        } else {
+            EmailVerification::updateOrCreate(
+                ['email' => $user->email],
+                [
+                    'otp' => $otp,
+                    'expires_at' => now()->addMinutes(5)
+                ]
+            );
 
-        EmailVerification::updateOrCreate(
-            ['email' => $user->email],
-            [
-                'otp' => $otp,
-                'expires_at' => now()->addMinutes(5)
-            ]
-        );
+            try {
+                Mail::to($user->email)->send(new SendEmail($otp));
 
-        try {
-            Mail::to($user->email)->send(new SendEmail($otp));
-
-            return back()->with('success', 'OTP đã được gửi lại đến email của bạn');
-        } catch (\Exception $e) {
-            // \Log::error('Resend OTP Error: ' . $e->getMessage());
-            return back()->with('error', 'Không thể gửi email: ' . $e->getMessage());
+                return back()->with('success', 'OTP đã được gửi lại đến email của bạn');
+            } catch (\Exception $e) {
+                // \Log::error('Resend OTP Error: ' . $e->getMessage());
+                return back()->with('error', 'Không thể gửi email: ' . $e->getMessage());
+            }
         }
     }
 }

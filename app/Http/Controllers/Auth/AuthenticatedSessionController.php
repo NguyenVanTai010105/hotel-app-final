@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
     }
     public function login(Request $request)
     {
-    
+
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:8',
@@ -64,12 +64,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+        Auth::logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('home');
     }
 }
