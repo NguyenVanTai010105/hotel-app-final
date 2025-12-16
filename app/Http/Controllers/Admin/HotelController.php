@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Room;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HotelController extends Controller
 {
@@ -16,12 +18,14 @@ class HotelController extends Controller
         //
         $rooms = Room::all();
         $totalRoom = Room::count();
-        return view('admin.dashboard', compact('totalRoom'));
+        $totalAcc = User::count();
+        $not_available = Room::where('status', 'not available')->count();
+        $available = Room::where('status', 'available')->count();
+        $admin = Auth::user();
+        $allNotifications = $admin->notifications;
+        return view('admin.dashboard', compact('totalRoom', 'rooms', 'not_available', 'available', 'totalAcc', 'allNotifications'));
     }
-    public function pendingView()
-    {
-        return view('admin.pending');
-    }
+
 
     /**
      * Show the form for creating a new resource.

@@ -30,9 +30,9 @@ Route::middleware(['auth', 'isAdmin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-
         Route::resource('hotels', HotelController::class)->except('show');
         Route::get('index', [HotelController::class, 'index']);
-        Route::get('pending', [HotelController::class, 'pendingView']);
+        Route::get('pending', [HotelController::class, 'pendingView'])->name('pending');
     });
+
 require __DIR__ . '/auth.php';
