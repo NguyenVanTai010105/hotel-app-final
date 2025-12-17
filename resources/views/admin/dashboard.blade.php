@@ -83,16 +83,6 @@
                 </div>
 
 
-                <!-- Empty State -->
-                {{-- <div id="emptyState" class="hidden flex-1 flex items-center justify-center p-6">
-                <div class="text-center">
-                    <div class="text-4xl text-gray-300 mb-2">📋</div>
-                    <p class="text-gray-500 text-sm">Không có phòng nào</p>
-                </div>
-            </div> --}}
-                {{-- @empty($record)
-                
-            @endempty --}}
 
                 <!-- Footer -->
                 <div class="p-4 border-t border-gray-200 bg-gray-50 text-xs text-gray-600">
@@ -225,7 +215,7 @@
     </body>
     <script>
         const request_booking = document.getElementById('request_booking');
-        request_booking.addEventListener('click', (e) => {
+        request_booking.addEventListener('click', () => {
             window.location.href = '{{ route('admin.pending') }}'
         })
     </script>

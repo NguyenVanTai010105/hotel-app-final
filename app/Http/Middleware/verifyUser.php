@@ -21,9 +21,10 @@ class verifyUser
         if (!$user) {
             return redirect()->route('login')->with('error', 'Vui lòng đăng nhập lại');
         }
+
         $user = Auth::user();
 
-        if ($user->email_verified_at === NULL) {
+        if ($user->role !== 'admin' && $user->email_verified_at === NULL) {
             return back()
                 ->with('notAuthentication', 'Xác thực tài khoản đi khách iu của em ơi!!!');
         }

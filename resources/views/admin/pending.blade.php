@@ -9,62 +9,100 @@
             <!-- Header -->
             <div class="flex items-center justify-between mb-8">
                 <h1 class="text-3xl font-bold text-gray-800">Yêu cầu đặt phòng</h1>
-                <div class="relative">
-                    <i class="fas fa-calendar-check text-4xl text-green-600"></i>
-                    <span
-                        class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-6 h-6 flex items-center justify-center rounded-full font-semibold">
-                        3
-                    </span>
-                </div>
             </div>
-
+            @php
+                $notifications = Auth::user()->notifications->all();
+            @endphp
             <!-- List requests -->
             <div class="space-y-6">
-                <div class="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition">
-                    <div class="flex justify-between items-start gap-6">
-                        <!-- Info chi tiết -->
-                        <div class="space-y-2">
-                            <p class="text-gray-500 text-sm">
-                                Người dùng: <span class="font-semibold">Nguyễn Văn A</span>
-                            </p>
-                            <p class="text-gray-500 text-sm">
-                                Email: <span class="font-semibold">user@example.com</span>
-                            </p>
-                            <p class="text-gray-500 text-sm">
-                                Phòng: <span class="font-semibold">Phòng 101</span>
-                            </p>
-                            <p class="text-gray-500 text-sm">
-                                Check-in: <span class="font-semibold">2025-12-20</span>
-                            </p>
-                            <p class="text-gray-500 text-sm">
-                                Check-out: <span class="font-semibold">2025-12-22</span>
-                            </p>
-                            <p class="text-gray-500 text-sm">
-                                Thông điệp:
-                                <span class="font-semibold">Xin được đặt phòng VIP</span>
-                            </p>
-                        </div>
+                @foreach ($notifications as $notification)
+                    <div
+                        class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-all duration-300">
 
-                        <!-- Hành động -->
-                        <div class="flex flex-col gap-3">
-                            <a href="#"
-                                class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition text-center font-medium">
-                                Xem chi tiết
-                            </a>
-                            <button
-                                class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition font-medium">
-                                Duyệt
-                            </button>
-                            <button
-                                class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition font-medium">
-                                Từ chối
-                            </button>
+                        <div class="flex flex-col lg:flex-row justify-between gap-6">
+
+                            <!-- Thông tin -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-600">
+                                <p>
+                                    Người dùng:
+                                    <span class="font-semibold text-gray-900">
+                                        {{ $notification->data['user_name'] }}
+                                    </span>
+                                </p>
+
+                                <p>
+                                    Email:
+                                    <span class="font-semibold text-gray-900">
+                                        {{ $notification->data['email'] ?? '—' }}
+                                    </span>
+                                </p>
+
+                                <p>
+                                    Phòng:
+                                    <span class="font-semibold text-gray-900">
+                                        {{ $notification->data['room_name'] ?? '—' }}
+                                    </span>
+                                </p>
+
+                                <p>
+                                    Check-in:
+                                    <span class="font-semibold text-gray-900">
+                                        {{ $notification->data['start_date'] ?? '—' }}
+                                    </span>
+                                </p>
+
+                                <p>
+                                    Check-out:
+                                    <span class="font-semibold text-gray-900">
+                                        {{ $notification->data['end_date'] ?? '—' }}
+                                    </span>
+                                </p>
+
+                                <p class="sm:col-span-2">
+                                    Thông điệp:
+                                    <span class="font-semibold text-gray-900">
+                                        {{ $notification->data['des'] ?? '—' }}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <!-- Hành động -->
+                            <div class="flex flex-row lg:flex-col gap-3 shrink-0 lg:justify-between h-full">
+
+                                <!-- DUYỆT -->
+                                <form method="POST"
+                                    action="{{ route('admin.accept', $notification->data['booking_id']) }}">
+                                    @csrf
+                                    <button type="submit"
+                                        class="inline-flex w-full items-center justify-center px-4 py-2 rounded-lg
+                   bg-green-600 text-white font-medium
+                   hover:bg-green-700 transition
+                   hover:scale-105 active:scale-95">
+                                        Duyệt
+                                    </button>
+                                </form>
+
+                                <!-- TỪ CHỐI -->
+                                <form method="POST"
+                                    action="{{ route('admin.reject', $notification->data['booking_id']) }}">
+                                    @csrf
+                                    <button type="submit"
+                                        class="inline-flex w-full items-center justify-center px-4 py-2 rounded-lg
+                   bg-red-600 text-white font-medium
+                   hover:bg-red-700 transition
+                   hover:scale-105 active:scale-95">
+                                        Từ chối
+                                    </button>
+                                </form>
+
+                            </div>
+
+
                         </div>
                     </div>
-                </div>
-
-                <!-- Bạn có thể lặp nhiều card bằng Blade @foreach -->
+                @endforeach
             </div>
+
         </div>
     </body>
 @endsection

@@ -163,7 +163,7 @@
 
                             @if ($room->status == 'available')
                                 <div class="space-y-3">
-                                    <a href="{{ route('booking.create', ['id' => $room->id]) }}">
+                                    <a href="{{ route('booking.create', $room->id) }}">
                                         <button
                                             class="w-full bg-[#0F3B37] text-[#F5A623] hover:text-[#0F3B37] hover:bg-[#F5A623] font-bold py-3 rounded-lg shadow transition duration-200">
                                             ĐẶT PHÒNG NGAY

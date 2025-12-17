@@ -33,6 +33,8 @@ Route::middleware(['auth', 'isAdmin'])
         Route::resource('hotels', HotelController::class)->except('show');
         Route::get('index', [HotelController::class, 'index']);
         Route::get('pending', [HotelController::class, 'pendingView'])->name('pending');
+        Route::post('pending/accept/{id}', [BookingController::class, 'approve'])->name('accept');
+        Route::post('pending/reject/{id}', [BookingController::class, 'reject'])->name('reject');
     });
 
 require __DIR__ . '/auth.php';

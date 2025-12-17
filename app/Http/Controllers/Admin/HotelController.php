@@ -25,6 +25,10 @@ class HotelController extends Controller
         $allNotifications = $admin->notifications;
         return view('admin.dashboard', compact('totalRoom', 'rooms', 'not_available', 'available', 'totalAcc', 'allNotifications'));
     }
+    public function pendingView()
+    {
+        return view('admin.pending');
+    }
 
 
     /**

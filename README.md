@@ -1,3 +1,3 @@
 # hotel-app-final
 
-Xong chức năng authencation
+Xong chức năng gửi phản hồi đến người dùng khi người dùng đặt phòng

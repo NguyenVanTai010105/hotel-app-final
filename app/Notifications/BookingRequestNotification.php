@@ -29,6 +29,10 @@ class BookingRequestNotification extends Notification
             'booking_id' => $this->booking->id,
             'user_name' => $this->booking->user->name,
             'room_name' => $this->booking->room->name,
+            'email' => $this->booking->user->email,
+            'start_date' => $this->booking->start_date,
+            'end_date' => $this->booking->end_date,
+            'des' => $this->booking->des,
             'message' => "Người dùng {$this->booking->user->name} gửi yêu cầu đặt phòng {$this->booking->room->name}.",
         ];
     }

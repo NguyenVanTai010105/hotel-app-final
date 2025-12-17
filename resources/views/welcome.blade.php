@@ -9,28 +9,25 @@
         <section class="w-full max-w-6xl mx-auto mt-12 px-6" x-data="{
             active: 0,
             slides: [
-                'https://images.unsplash.com/photo-1501117716987-c8e1ecb210ff?auto=format&fit=crop&w=1500&q=80',
-                'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1500&q=80',
-                'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1500&q=80'
+                '{{ asset('images/slide-1.jpg') }}',
+                '{{ asset('images/slide-2.jpg') }}',
+                '{{ asset('images/slide-3.jpg') }}'
             ],
             autoplay() {
                 setInterval(() => {
-                    this.active = this.active === this.slides.length - 1 ? 0 : this.active + 1;
+                    this.active = (this.active + 1) % this.slides.length;
                 }, 5000);
             }
         }" x-init="autoplay()">
 
             <div class="relative h-64 sm:h-80 lg:h-[450px] overflow-hidden rounded-2xl shadow-xl">
-
                 <!-- Slides -->
                 <template x-for="(slide, index) in slides" :key="index">
                     <img x-show="active === index" x-transition:enter="transition ease-out duration-700"
-                        x-transition:enter-start="opacity-0 transform scale-105"
-                        x-transition:enter-end="opacity-100 transform scale-100"
+                        x-transition:enter-start="opacity-0 scale-105" x-transition:enter-end="opacity-100 scale-100"
                         x-transition:leave="transition ease-in duration-700"
-                        x-transition:leave-start="opacity-100 transform scale-100"
-                        x-transition:leave-end="opacity-0 transform scale-95" :src="slide"
-                        class="absolute inset-0 w-full h-full object-cover">
+                        x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                        :src="slide" class="absolute inset-0 w-full h-full object-cover">
                 </template>
 
                 <!-- Left Button -->
@@ -53,13 +50,14 @@
             <!-- Indicators -->
             <div class="flex justify-center mt-4 gap-2">
                 <template x-for="(slide, index) in slides" :key="index">
-                    <div @click = " active = index" class="w-3 h-3 rounded-full cursor-pointer transition-all duration-300"
+                    <div @click="active = index" class="w-3 h-3 rounded-full cursor-pointer transition-all duration-300"
                         :class="active === index ? 'bg-indigo-700 scale-110 w-8' : 'bg-gray-400 hover:bg-gray-500'">
                     </div>
                 </template>
             </div>
 
         </section>
+
 
 
         <!-- About Section -->
