@@ -3,6 +3,17 @@
 
 
 @section('content')
+    @if (session('status'))
+        <div id="toast"
+            class="fixed top-[70px] right-5 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 opacity-0 transform transition-all duration-300">
+            {{ session('status') }}
+        </div>
+    @elseif(session('error'))
+        <div id="toast"
+            class="fixed top-[70px] right-5 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 opacity-0 transform transition-all duration-300">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <body class="bg-gray-100">
         <div class="max-w-6xl mx-auto mt-10 px-4">
@@ -70,8 +81,7 @@
                             <div class="flex flex-row lg:flex-col gap-3 shrink-0 lg:justify-between h-full">
 
                                 <!-- DUYỆT -->
-                                <form method="POST"
-                                    action="{{ route('admin.accept', $notification->data['booking_id']) }}">
+                                <form method="POST" action="{{ route('admin.accept', $notification->id) }}">
                                     @csrf
                                     <button type="submit"
                                         class="inline-flex w-full items-center justify-center px-4 py-2 rounded-lg
@@ -83,8 +93,7 @@
                                 </form>
 
                                 <!-- TỪ CHỐI -->
-                                <form method="POST"
-                                    action="{{ route('admin.reject', $notification->data['booking_id']) }}">
+                                <form method="POST" action="{{ route('admin.reject', $notification->id) }}">
                                     @csrf
                                     <button type="submit"
                                         class="inline-flex w-full items-center justify-center px-4 py-2 rounded-lg
@@ -105,4 +114,22 @@
 
         </div>
     </body>
+    <script>
+        const request_booking = document.getElementById('request_booking');
+        request_booking.addEventListener('click', () => {
+            window.location.href = '{{ route('admin.pending') }}'
+        })
+
+        const toast = document.getElementById('toast');
+        if (toast) {
+            setTimeout(() => {
+                toast.classList.remove('opacity-0');
+                toast.classList.add('opacity-100');
+            }, 100);
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 3100);
+        }
+    </script>
 @endsection

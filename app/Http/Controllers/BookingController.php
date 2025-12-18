@@ -9,6 +9,7 @@ use App\Models\Room;
 use App\Models\User;
 use App\Notifications\BookingRequestNotification;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -53,20 +54,37 @@ class BookingController extends Controller
         $room = Room::findOrFail($id);
         return view('booking.create', compact('room'));
     }
-    public function approve($id)
+    public function approve($notificationId)
     {
-        $booking = Booking::with(['user', 'room'])->findOrFail($id);
+        // 1️⃣ Lấy notification bằng UUID
+        $notification = DatabaseNotification::findOrFail($notificationId);
 
+        // 2️⃣ Lấy booking_id từ data
+        $bookingId = $notification->data['booking_id'];
+
+        // 3️⃣ Lấy booking
+        $booking = Booking::with(['user', 'room'])->findOrFail($bookingId);
+
+        // 4️⃣ Gửi mail
         Mail::to($booking->email)->send(new BookingSuccessMail($booking));
-        $booking->delete();
-        return back()->with('status', 'Gửi mail thành công');
+
+        // 5️⃣ Xóa notification
+        $notification->delete();
+
+        return back()->with('status', 'Duyệt thành công');
     }
-    public function reject($id)
+
+    public function reject($notificationId)
     {
-        $booking = Booking::with(['user', 'room'])->findOrFail($id);
+        $notification = DatabaseNotification::findOrFail($notificationId);
+
+        $booking = Booking::with(['user', 'room'])
+            ->findOrFail($notification->data['booking_id']);
 
         Mail::to($booking->email)->send(new RejectBooking($booking));
-        $booking->delete();
-        return back()->with('status', 'Gửi mail thành công');
+
+        $notification->delete();
+
+        return back()->with('status', 'Đã từ chối');
     }
 }
