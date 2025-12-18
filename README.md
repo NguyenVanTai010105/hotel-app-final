@@ -15,7 +15,10 @@ Dự án được xây dựng phục vụ cho mục đích **học tập và bá
 
 ## 👥 Thành viên thực hiện
 - **Nguyễn Văn Tài** – Lớp K23CNTT2  
-- *(Có thể bổ sung thêm nếu làm nhóm)*
+- Hồ Công Duy - 3120223038
+-Đặng Bảo Ngọc-3120223129
+-Nguyễn Lộc Khải-3120223087
+-Đặng Duy Khánh -3120223091
 
 ---
 
