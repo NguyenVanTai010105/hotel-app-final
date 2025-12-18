@@ -23,24 +23,24 @@
             <!-- Logo -->
             <div class="logo h-12 w-auto">
                 <a href="{{ route('welcome') }}">
-                    <img src="{{ asset('images/crocodile.png') }}" class="h-full w-auto object-contain" alt="logo">
+                    <img src="{{ asset('images/logo_real.png') }}" class="h-full w-auto object-contain" alt="logo">
                 </a>
             </div>
 
             <!-- Desktop Navbar -->
             <div class="hidden md:flex navbar text-gray-500 items-center space-x-8">
                 <div class="inline-block relative group">
-                    <p class="hover:text-black cursor-pointer">HomePage</p>
+                    <a href="{{ route('welcome') }}" class="hover:text-black cursor-pointer">HomePage</a>
                     <hr
                         class="absolute left-0 bottom-0 w-0 h-[2.5px] bg-yellow-500 transition-all duration-500 group-hover:w-full">
                 </div>
                 <div class="inline-block relative group">
-                    <p class="hover:text-black cursor-pointer">Technology</p>
+                    <a href="{{ route('rooms.all') }}" class="hover:text-black cursor-pointer">RoomAll</a>
                     <hr
                         class="absolute left-0 bottom-0 w-0 h-[2.5px] bg-yellow-500 transition-all duration-500 group-hover:w-full">
                 </div>
                 <div class="inline-block relative group">
-                    <p class="hover:text-black cursor-pointer">Careers</p>
+                    <a href="{{ route('contact') }}" class="hover:text-black cursor-pointer">ContactUs</a>
                     <hr
                         class="absolute left-0 bottom-0 w-0 h-[2.5px] bg-yellow-500 transition-all duration-500 group-hover:w-full">
                 </div>

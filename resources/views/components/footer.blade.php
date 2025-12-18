@@ -60,12 +60,15 @@
 
         <!-- Logo + mô tả -->
         <div class="md:w-1/3">
-            <div class="flex items-center mb-4">
-                <div class="w-6 h-6 bg-[#f5a623] rounded mr-2"></div>
-                <span class="font-bold text-lg tracking-wide">UEFALONA</span>
+            <div class="flex items-center gap-2 mb-4">
+                <img src="{{ asset('images/logo_real.png') }}" alt="logo" class="w-10 h-10 object-contain">
+                <span class="font-bold text-lg tracking-wide">
+                    Madridista
+                </span>
             </div>
+
             <p class="text-sm text-gray-300 leading-relaxed mb-5">
-                VARCELONA
+                <strong> Đẳng cấp làm nên tên tuổi</strong>
             </p>
 
             <div class="flex space-x-4 text-xl mb-5">
@@ -84,13 +87,10 @@
         <div>
             <h3 class="font-semibold text-lg mb-4">Hãy Sống Theo Cách Của Bạn</h3>
             <ul class="space-y-2 text-gray-300 text-sm">
-                <li><a href="#" class="hover:text-[#f5a623]">Homepage</a></li>
-                <li><a href="#" class="hover:text-[#f5a623]">Technology</a></li>
-                <li><a href="#" class="hover:text-[#f5a623]">Ataraxis Breast</a></li>
-                <li><a href="#" class="hover:text-[#f5a623]">Resources & News</a></li>
-                <li><a href="#" class="hover:text-[#f5a623]">Careers</a></li>
-                <li><a href="#" class="hover:text-[#f5a623]">Contact Us</a></li>
-                <li><a href="#" class="hover:text-[#f5a623]">Portal</a></li>
+                <li><a href="{{ route('welcome') }}" class="hover:text-[#f5a623]">Homepage</a></li>
+                <li><a href="{{ route('rooms.all') }}" class="hover:text-[#f5a623]">RoomAll</a></li>
+                <li><a href="{{ route('contact') }}" class="hover:text-[#f5a623]">ContactUs</a></li>
+
             </ul>
         </div>
 
@@ -107,7 +107,7 @@
     </div>
 
     <div class="bg-[#f5a623] text-[#0F3B37] text-center py-3 text-sm font-medium">
-        Bản quyền thuộc về sinh viên có stt đuôi là 6
+        Madridista • Since 2025
     </div>
 </footer>
 

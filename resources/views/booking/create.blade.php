@@ -182,7 +182,7 @@
                 <!-- RIGHT COLUMN: SUMMARY -->
                 <div class="space-y-4 sticky top-6 h-fit">
                     <div class="bg-white shadow-xl rounded-xl overflow-hidden">
-                        <img src="{{ $room->image ? asset('images/' . $room->image) : 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80' }}"
+                        <img src="{{  asset('storage/' . $room->image) }}"
                             class="w-full h-48 object-cover" alt="{{ $room->name }}">
 
                         <div class="p-5">

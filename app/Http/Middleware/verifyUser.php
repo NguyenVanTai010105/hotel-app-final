@@ -22,7 +22,7 @@ class verifyUser
             return redirect()->route('login')->with('error', 'Vui lòng đăng nhập lại');
         }
 
-        $user = Auth::user();
+
 
         if ($user->role !== 'admin' && $user->email_verified_at === NULL) {
             return back()

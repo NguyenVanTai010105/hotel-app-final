@@ -62,9 +62,9 @@
 
         <!-- About Section -->
         <section class="max-w-6xl mx-auto px-6 py-16 text-center">
-            <h3 class="text-3xl font-semibold text-indigo-900 mb-4">Giới thiệu khách sạn</h3>
+            <h3 class="text-3xl font-semibold text-indigo-900 mb-4">Madridista Hotel xin chào,</h3>
             <p class="text-gray-700 leading-relaxed max-w-3xl mx-auto">
-                Royal Ocean Hotel cung cấp hệ thống phòng nghỉ hiện đại, nhà hàng chuẩn 5 sao, hồ bơi ngoài trời,
+                Madridista Hotel cung cấp hệ thống phòng nghỉ hiện đại, nhà hàng chuẩn 5 sao, hồ bơi ngoài trời,
                 spa cao cấp và nhiều trải nghiệm đáng nhớ dành cho kỳ nghỉ của bạn.
             </p>
         </section>
@@ -84,7 +84,7 @@
 
                             {{-- Ảnh --}}
                             <div class="relative">
-                                <img src="{{ asset('images/' . $room->image) }}"
+                                <img src="{{ asset('storage/' . $room->image) }}"
                                     class="w-full h-64 object-cover group-hover:scale-105 transition-all duration-500" />
 
                                 <span
@@ -120,7 +120,7 @@
                                         <span class="text-gray-500 text-xs">/ đêm</span>
                                     </div>
 
-                                    <a href="{{ route('room.detail', ['id' => $room->id]) }}"
+                                    <a href="{{ route('room.detail', $room->id) }}"
                                         class="px-6 py-2 rounded-full font-semibold border border-red-500 text-red-500
                                 hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm">
                                         Xem chi tiết

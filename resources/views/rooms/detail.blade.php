@@ -24,7 +24,7 @@
                 <div class="lg:col-span-2">
                     <!-- Main Image -->
                     <div class="mb-4 relative">
-                        <img id="mainImage" src="{{ asset('images/' . $room->image) }}"
+                        <img id="mainImage" src="{{ asset('storage/' . $room->image) }}"
                             class="w-full h-[450px] object-cover rounded-lg shadow-lg" alt="{{ $room->name }}">
                         <span
                             class="absolute top-3 left-3 bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-semibold text-base shadow">
@@ -195,14 +195,14 @@
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     @foreach ($relatedRooms as $item)
                         <div class="bg-white rounded-lg shadow hover:shadow-lg transition-all duration-200 overflow-hidden">
-                            <img src="{{ asset('images/' . $item->image) }}" class="w-full h-48 object-contain bg-gray-100"
-                                alt="{{ $item->name }}">
+                            <img src="{{ asset('storage/' . $item->image) }}"
+                                class="w-full h-48 object-contain bg-gray-100" alt="{{ $item->name }}">
                             <div class="p-3">
                                 <h6 class="font-semibold text-gray-900 text-sm mb-1 truncate">{{ $item->name }}</h6>
                                 <p class="text-red-600 font-bold text-sm mb-2">
                                     {{ number_format($item->price, 0, ',', '.') }} VNĐ</p>
                                 <a href="{{ route('room.detail', ['id' => $item->id]) }}"
-                                    class="block w-full text-center text-xs border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-1.5 rounded transition">
+                                    class="block w-full text-center text-xs border bg-[#0D4541] text-[#F5A623] hover:bg-[#F5A623] hover:text-[#0D4541] py-1.5 rounded transition-all duration-300">
                                     Xem chi tiết
                                 </a>
                             </div>

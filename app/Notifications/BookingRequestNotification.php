@@ -11,7 +11,7 @@ class BookingRequestNotification extends Notification
 {
     use Queueable;
 
-    private $booking;
+    public $booking;
 
     public function __construct($booking)
     {

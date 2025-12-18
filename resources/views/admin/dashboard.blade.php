@@ -3,7 +3,17 @@
 
 
 @section('content')
-
+    @if (session('status'))
+        <div id="toast"
+            class="fixed top-[70px] right-5 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 opacity-0 transform transition-all duration-300">
+            {{ session('status') }}
+        </div>
+    @elseif(session('error'))
+        <div id="toast"
+            class="fixed top-[70px] right-5 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 opacity-0 transform transition-all duration-300">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <body>
         <div class="flex  bg-gray-50 ">
@@ -105,7 +115,7 @@
                         Tổng quan hệ thống và trạng thái hiện tại
                     </p>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
                         <!-- Total Accounts -->
                         <div
@@ -122,9 +132,9 @@
                         </div>
 
                         <!-- Total Bookings -->
-                        <div class="flex items-center justify-between p-4 hover:shadow-xl hover:scale-105 transition-transform duration-300 rounded-xl bg-gray-50 border shadow-sm"
+                        <button
+                            class="flex items-center justify-between p-4 hover:shadow-xl hover:scale-105 transition-transform duration-300 rounded-xl bg-gray-50 border shadow-sm"
                             id="request_booking">
-                            <!-- Text info -->
                             <div>
                                 <p class="text-sm text-gray-500">Yêu cầu đặt phòng</p>
                                 <p class="text-2xl font-bold text-gray-900">
@@ -132,7 +142,6 @@
                                 </p>
                             </div>
 
-                            <!-- Icon với badge -->
                             <div
                                 class="relative w-12 h-12 flex items-center justify-center rounded-full bg-green-100 text-green-600">
                                 <i class="fas fa-calendar-check text-2xl"></i>
@@ -148,10 +157,23 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </button>
 
+                        <!-- Tạo phòng mới -->
+                        <a href="{{ route('admin.create') }}"
+                            class="flex items-center justify-between p-4 hover:shadow-xl hover:scale-105 transition-transform duration-300 rounded-xl bg-purple-50 border cursor-pointer">
+                            <div>
+                                <p class="text-sm text-purple-500">Tạo phòng mới</p>
+                                <p class="text-2xl font-bold text-purple-900">+</p>
+                            </div>
+                            <div
+                                class="w-10 h-10 flex items-center justify-center rounded-full bg-purple-100 text-purple-600">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </a>
 
                     </div>
+
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 my-5 gap-6  overflow-y-auto">
 
@@ -162,7 +184,7 @@
 
                             <!-- Image -->
                             <div class="relative">
-                                <img src="{{ asset('images/' . $room->image) }}" alt="Room image"
+                                <img src="{{ asset('storage/' . $room->image) }}" alt="Room image"
                                     class="w-full h-44 object-cover">
 
                                 <!-- Status badge -->
@@ -197,11 +219,20 @@
                                         {{ number_format($room->price, 0, ',', '.') }}₫
                                     </span>
 
-                                    <button
+                                    <a href="{{ route('admin.edit', $room->id) }}"
                                         class="text-sm px-4 py-1.5 rounded-lg bg-gray-900 text-white
                            hover:bg-gray-800 transition">
                                         Sửa
-                                    </button>
+                                    </a>
+                                    <form action="{{ route('admin.delete', $room->id) }}" method="POST"
+                                        onsubmit="return confirm('Bạn có chắc muốn xóa phòng này?')">
+                                        @csrf
+                                        <button type="submit"
+                                            class="text-sm px-4 py-1.5 rounded-lg bg-red-500 text-white border border-transparent
+                       hover:border-red-500 hover:bg-white hover:text-red-500 transition-all duration-200">
+                                            Xóa
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -209,7 +240,10 @@
 
                 </div>
 
-
+                <!-- Pagination -->
+                <div class="mt-6 flex justify-center">
+                    {{ $rooms->links('pagination::simple-tailwind') }}
+                </div>
             </div>
         </div>
     </body>
@@ -218,6 +252,18 @@
         request_booking.addEventListener('click', () => {
             window.location.href = '{{ route('admin.pending') }}'
         })
+
+        const toast = document.getElementById('toast');
+        if (toast) {
+            setTimeout(() => {
+                toast.classList.remove('opacity-0');
+                toast.classList.add('opacity-100');
+            }, 100);
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 3100);
+        }
     </script>
 
 @endsection
